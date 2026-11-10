@@ -1,0 +1,6 @@
+{
+  "artifact": "cognitive_risk_model.joblib",
+  "sha256": "aa722eae31c820af76ff9bcf259397a53470b13e51f92a1d64ce4299f20f14f5",
+  "trained_at": "2026-11-08T22:08:49.378061+00:00",
+  "validation_status": "SYNTHETIC_PROTOTYPE_NOT_CLINICALLY_VALIDATED"
+}

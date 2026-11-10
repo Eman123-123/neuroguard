@@ -1,11 +1,15 @@
-"""MRI baseline: Google Colab par chalao (GPU on karke).
-Maqsad accuracy nahi, ye dekhna hai ke pipeline chal rahi hai.
+"""MRI baseline training script (ResNet-50, 4 classes).
 
-Setup (Colab):
-    1. Kaggle se "Alzheimer's MRI Dataset" download karo aur folder structure aisa rakho:
-         data/train/<class_name>/*.jpg
-         data/test/<class_name>/*.jpg
-    2. !pip install torch torchvision scikit-learn
+KNOWN LIMITATIONS - READ BEFORE TRUSTING ANY NUMBER THIS PRODUCES
+* Kaggle-derived slice datasets (incl. the "Alzheimer's Dataset (4 class of Images)"
+  this script targets) do not always document subject selection, so you cannot
+  verify that slices of one person stay on one side of the split. Slice-level
+  splitting is known to inflate accuracy (Yagis et al., Sci. Rep. 11:22544, 2021
+  reports ~+30 points on OASIS). Prefer OASIS-1/OASIS-3/ADNI (after signing their
+  DUAs) and split BY SUBJECT.
+* Only 3 epochs, no validation split, no early stopping, the test set is used to
+  report the final model (and is the only held-out data): use train/val/test.
+* No external validation. Treat results as a software smoke test, not performance.
 """
 import torch
 import torch.nn as nn
@@ -20,7 +24,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 tf_train = transforms.Compose([
     transforms.Resize((224, 224)),
-    transforms.Grayscale(num_output_channels=3),  # MRI grayscale hoti hai, model ko 3 channel chahiye
+    transforms.Grayscale(num_output_channels=3),  # Convert grayscale MRI to 3 channels for ResNet
     transforms.RandomRotation(10),
     transforms.ToTensor(),
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
@@ -42,7 +46,7 @@ model = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
 model.fc = nn.Linear(model.fc.in_features, len(train_ds.classes))
 model = model.to(device)
 
-# Class imbalance ke liye weights (Moderate class bohat chhoti hoti hai)
+# Class weighting to address dataset imbalance (e.g. Moderate class is smaller)
 counts = torch.bincount(torch.tensor(train_ds.targets))
 weights = (counts.sum() / (len(counts) * counts.float())).to(device)
 criterion = nn.CrossEntropyLoss(weight=weights)

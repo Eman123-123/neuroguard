@@ -1,0 +1,425 @@
+{
+  "model_name": "Logistic Regression",
+  "validation_status": "SYNTHETIC_PROTOTYPE_NOT_CLINICALLY_VALIDATED",
+  "task": "3-class ordinal screening risk (Low / Moderate / High)",
+  "data_provenance": {
+    "synthetic": true,
+    "warning": "Synthetic data generated from author-assumed Gaussians. Not clinical data.",
+    "generator": "generate_cognitive_dataset.py",
+    "parameters": {
+      "n_samples": 5000,
+      "seed": 42,
+      "separation": 1.0,
+      "label_noise": 0.04
+    },
+    "n_rows": 5000,
+    "sha256": "2b98cdbb0b4f7106488b7baf608b21749a300b94e4ee36b1905a31d5b6f02f5c",
+    "generated_at": "2026-11-08T13:22:45.729706+00:00"
+  },
+  "split": {
+    "n_train": 4000,
+    "n_test": 1000,
+    "stratified": true,
+    "seed": 42,
+    "cv_folds": 5
+  },
+  "selection": {
+    "rule": "one-standard-error on CV macro-F1 (training split only)",
+    "cv": {
+      "Logistic Regression": {
+        "cv_mean": 0.9527380939493881,
+        "cv_sd": 0.015285211753634028,
+        "cv_se": 0.006835754506320891,
+        "best_params": {
+          "clf__C": 0.017073967431528128
+        }
+      },
+      "Random Forest": {
+        "cv_mean": 0.9520895791838273,
+        "cv_sd": 0.013753477577371621,
+        "cv_se": 0.006150742158004413,
+        "best_params": {
+          "clf__max_depth": 11,
+          "clf__max_features": 0.3095797513321285,
+          "clf__min_samples_leaf": 3,
+          "clf__n_estimators": 233
+        }
+      },
+      "XGBoost": {
+        "cv_mean": 0.9525212117790651,
+        "cv_sd": 0.013058123006662575,
+        "cv_se": 0.005839770140290291,
+        "best_params": {
+          "clf__colsample_bytree": 0.7168578594140873,
+          "clf__learning_rate": 0.05393925667147033,
+          "clf__max_depth": 3,
+          "clf__min_child_weight": 3,
+          "clf__n_estimators": 187,
+          "clf__reg_lambda": 1.0677482709481354,
+          "clf__subsample": 0.836965827544817
+        }
+      }
+    },
+    "chosen": "Logistic Regression",
+    "calibration": {
+      "used": false,
+      "oof_logloss_raw": 0.24451604509928002,
+      "oof_logloss_sigmoid": 0.3364626102132503
+    }
+  },
+  "baselines": {
+    "Prior-only (Dummy)": {
+      "cv_mean": 0.21175927461551963,
+      "cv_sd": 0.00021248766860161678,
+      "cv_se": 9.502737427473255e-05,
+      "test": {
+        "n": 1000,
+        "accuracy": 0.466,
+        "balanced_accuracy": 0.3333333333333333,
+        "precision_macro": 0.15533333333333335,
+        "recall_macro": 0.3333333333333333,
+        "specificity_macro": 0.6666666666666666,
+        "f1_macro": 0.21191450659390632,
+        "roc_auc_macro_ovr": 0.5,
+        "average_precision_macro": 0.3333333333333333,
+        "log_loss": 1.0434639037713647,
+        "brier_score": 0.21033945833333334,
+        "expected_calibration_error": 0.0004999999999997784,
+        "confusion_matrix": [
+          [
+            466,
+            0,
+            0
+          ],
+          [
+            335,
+            0,
+            0
+          ],
+          [
+            199,
+            0,
+            0
+          ]
+        ],
+        "class_names": [
+          "Low Risk",
+          "Moderate Risk",
+          "High Risk"
+        ],
+        "per_class": {
+          "Low Risk": {
+            "precision": 0.466,
+            "recall_sensitivity": 1.0,
+            "specificity": 0.0,
+            "f1": 0.635743519781719,
+            "roc_auc": 0.5,
+            "average_precision": 0.466,
+            "support": 466
+          },
+          "Moderate Risk": {
+            "precision": 0.0,
+            "recall_sensitivity": 0.0,
+            "specificity": 1.0,
+            "f1": 0.0,
+            "roc_auc": 0.5,
+            "average_precision": 0.335,
+            "support": 335
+          },
+          "High Risk": {
+            "precision": 0.0,
+            "recall_sensitivity": 0.0,
+            "specificity": 1.0,
+            "f1": 0.0,
+            "roc_auc": 0.5,
+            "average_precision": 0.199,
+            "support": 199
+          }
+        }
+      }
+    },
+    "AD8-only Logistic Regression": {
+      "cv_mean": 0.7939091637556559,
+      "cv_sd": 0.009769654616899477,
+      "cv_se": 0.004369122368016379,
+      "test": {
+        "n": 1000,
+        "accuracy": 0.804,
+        "balanced_accuracy": 0.7979239395147969,
+        "precision_macro": 0.779475996619133,
+        "recall_macro": 0.7979239395147969,
+        "specificity_macro": 0.9015444353705737,
+        "f1_macro": 0.7823406828118725,
+        "roc_auc_macro_ovr": 0.9235861153467143,
+        "average_precision_macro": 0.8014631069928112,
+        "log_loss": 0.4779413258456919,
+        "brier_score": 0.09421741255392672,
+        "expected_calibration_error": 0.04608348942706853,
+        "confusion_matrix": [
+          [
+            428,
+            38,
+            0
+          ],
+          [
+            55,
+            203,
+            77
+          ],
+          [
+            0,
+            26,
+            173
+          ]
+        ],
+        "class_names": [
+          "Low Risk",
+          "Moderate Risk",
+          "High Risk"
+        ],
+        "per_class": {
+          "Low Risk": {
+            "precision": 0.8861283643892339,
+            "recall_sensitivity": 0.9184549356223176,
+            "specificity": 0.897003745318352,
+            "f1": 0.9020021074815595,
+            "roc_auc": 0.9580761440902734,
+            "average_precision": 0.9290061762867505,
+            "support": 466
+          },
+          "Moderate Risk": {
+            "precision": 0.7602996254681648,
+            "recall_sensitivity": 0.6059701492537314,
+            "specificity": 0.9037593984962407,
+            "f1": 0.6744186046511628,
+            "roc_auc": 0.860590281674335,
+            "average_precision": 0.6957912382850109,
+            "support": 335
+          },
+          "High Risk": {
+            "precision": 0.692,
+            "recall_sensitivity": 0.8693467336683417,
+            "specificity": 0.9038701622971286,
+            "f1": 0.7706013363028953,
+            "roc_auc": 0.9520919202755349,
+            "average_precision": 0.7795919064066724,
+            "support": 199
+          }
+        }
+      }
+    }
+  },
+  "test_metrics": {
+    "n": 1000,
+    "accuracy": 0.961,
+    "balanced_accuracy": 0.9585125143150038,
+    "precision_macro": 0.9569298012909749,
+    "recall_macro": 0.9585125143150038,
+    "specificity_macro": 0.9797130153723885,
+    "f1_macro": 0.9573768826966816,
+    "roc_auc_macro_ovr": 0.9713628468562566,
+    "average_precision_macro": 0.9405942069089096,
+    "log_loss": 0.22683713450168622,
+    "brier_score": 0.032247858673348805,
+    "expected_calibration_error": 0.07683110555522318,
+    "confusion_matrix": [
+      [
+        461,
+        5,
+        0
+      ],
+      [
+        15,
+        307,
+        13
+      ],
+      [
+        0,
+        6,
+        193
+      ]
+    ],
+    "class_names": [
+      "Low Risk",
+      "Moderate Risk",
+      "High Risk"
+    ],
+    "per_class": {
+      "Low Risk": {
+        "precision": 0.9684873949579832,
+        "recall_sensitivity": 0.9892703862660944,
+        "specificity": 0.9719101123595506,
+        "f1": 0.9787685774946921,
+        "roc_auc": 0.9805540820755172,
+        "average_precision": 0.9543116332821353,
+        "support": 466
+      },
+      "Moderate Risk": {
+        "precision": 0.9654088050314465,
+        "recall_sensitivity": 0.9164179104477612,
+        "specificity": 0.9834586466165414,
+        "f1": 0.9402756508422665,
+        "roc_auc": 0.9448456963303782,
+        "average_precision": 0.937400597507546,
+        "support": 335
+      },
+      "High Risk": {
+        "precision": 0.9368932038834952,
+        "recall_sensitivity": 0.9698492462311558,
+        "specificity": 0.9837702871410736,
+        "f1": 0.9530864197530864,
+        "roc_auc": 0.9886887621628744,
+        "average_precision": 0.9300703899370477,
+        "support": 199
+      }
+    }
+  },
+  "test_metrics_95ci_bootstrap": {
+    "accuracy": [
+      0.948,
+      0.972525
+    ],
+    "f1_macro": [
+      0.9421828626122809,
+      0.9703759273026338
+    ],
+    "roc_auc_macro_ovr": [
+      0.9604307739094936,
+      0.9809948855008912
+    ]
+  },
+  "stress_test_overlapping_classes": {
+    "separation": 0.6,
+    "metrics": {
+      "n": 2000,
+      "accuracy": 0.7835,
+      "balanced_accuracy": 0.7657543450119971,
+      "precision_macro": 0.8415551018610473,
+      "recall_macro": 0.7657543450119971,
+      "specificity_macro": 0.8886111115333186,
+      "f1_macro": 0.7787506277298681,
+      "roc_auc_macro_ovr": 0.952235382805063,
+      "average_precision_macro": 0.8975484358021997,
+      "log_loss": 0.49870934754397406,
+      "brier_score": 0.10334165605711353,
+      "expected_calibration_error": 0.03497627026874514,
+      "confusion_matrix": [
+        [
+          700,
+          232,
+          0
+        ],
+        [
+          46,
+          621,
+          9
+        ],
+        [
+          0,
+          146,
+          246
+        ]
+      ],
+      "class_names": [
+        "Low Risk",
+        "Moderate Risk",
+        "High Risk"
+      ],
+      "per_class": {
+        "Low Risk": {
+          "precision": 0.938337801608579,
+          "recall_sensitivity": 0.7510729613733905,
+          "specificity": 0.9569288389513109,
+          "f1": 0.834326579261025,
+          "roc_auc": 0.9591139428718395,
+          "average_precision": 0.9392829462878051,
+          "support": 932
+        },
+        "Moderate Risk": {
+          "precision": 0.6216216216216216,
+          "recall_sensitivity": 0.9186390532544378,
+          "specificity": 0.7145015105740181,
+          "f1": 0.7414925373134328,
+          "roc_auc": 0.9101331360946746,
+          "average_precision": 0.8057184866888483,
+          "support": 676
+        },
+        "High Risk": {
+          "precision": 0.9647058823529412,
+          "recall_sensitivity": 0.6275510204081632,
+          "specificity": 0.9944029850746269,
+          "f1": 0.7604327666151468,
+          "roc_auc": 0.987459069448675,
+          "average_precision": 0.9476438744299457,
+          "support": 392
+        }
+      }
+    }
+  },
+  "generator_accuracy_ceiling": 0.96,
+  "feature_importance_permutation": [
+    {
+      "feature": "ad8_score",
+      "importance_mean": 0.05134759979022942,
+      "importance_sd": 0.006239243334824462
+    },
+    {
+      "feature": "stroop_interference_ms",
+      "importance_mean": 0.030152381392175576,
+      "importance_sd": 0.006060981055748982
+    },
+    {
+      "feature": "stroop_avg_reaction_ms",
+      "importance_mean": 0.028204776272361308,
+      "importance_sd": 0.00330276649917354
+    },
+    {
+      "feature": "card_match_error_rate",
+      "importance_mean": 0.025843866013804496,
+      "importance_sd": 0.0023516613444251686
+    },
+    {
+      "feature": "stroop_accuracy",
+      "importance_mean": 0.023107882028634463,
+      "importance_sd": 0.0039311274035695705
+    },
+    {
+      "feature": "card_match_time_sec",
+      "importance_mean": 0.02060942657515389,
+      "importance_sd": 0.0035736823420802095
+    },
+    {
+      "feature": "card_match_moves",
+      "importance_mean": 0.017632243276902482,
+      "importance_sd": 0.0038764601528621084
+    },
+    {
+      "feature": "sequence_max_span",
+      "importance_mean": 0.007911866935843438,
+      "importance_sd": 0.002841888885295589
+    },
+    {
+      "feature": "age",
+      "importance_mean": 0.001433205081129052,
+      "importance_sd": 0.0017319853859436888
+    },
+    {
+      "feature": "education_years",
+      "importance_mean": 0.001112617616208078,
+      "importance_sd": 0.0020651071797273142
+    },
+    {
+      "feature": "family_history",
+      "importance_mean": -0.0001306313139266213,
+      "importance_sd": 0.0011487782614664655
+    }
+  ],
+  "interpretation": "Test accuracy is bounded by the label-noise ceiling of the generator and the held-out set shares the generator's distribution, so these numbers demonstrate pipeline correctness, not diagnostic accuracy.",
+  "plots": {
+    "confusion_matrix": "confusion_matrix.png",
+    "roc_curve": "roc_curve.png",
+    "pr_curve": "pr_curve.png",
+    "calibration": "calibration.png",
+    "feature_importance": "feature_importance.png"
+  }
+}

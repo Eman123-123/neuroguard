@@ -45,7 +45,7 @@ class GameSessionOut(BaseModel):
 
 
 class Ad8Submit(BaseModel):
-    # 8 sawalon ke jawab: True = "haan, tabdeeli aayi hai"
+    # 8 question responses: True indicates a consistent change observed over time
     answers: list[bool] = Field(min_length=8, max_length=8)
 
 
@@ -54,3 +54,47 @@ class Ad8Out(BaseModel):
     score: int
     interpretation: str
     created_at: datetime
+
+
+class RiskAssessmentRequest(BaseModel):
+    age: Optional[int] = None
+    education_years: Optional[int] = None
+    family_history: Optional[Literal["yes", "no", "unknown"]] = None
+    ad8_score: Optional[int] = Field(default=None, ge=0, le=8)
+    card_match_metrics: Optional[dict[str, Any]] = None
+    stroop_metrics: Optional[dict[str, Any]] = None
+    sequence_metrics: Optional[dict[str, Any]] = None
+    use_profile_data: bool = True  # If true, auto-fill missing fields from user profile and recent DB records
+
+
+class RiskAssessmentOut(BaseModel):
+    risk_level: str
+    risk_level_code: int
+    risk_score: float
+    confidence: float
+    class_probabilities: dict[str, float]
+    clinical_flags: list[str]
+    recommendation: str
+    stage_advice: str
+    features_evaluated: dict[str, Any]
+    disclaimer: str
+    # Transparency fields (optional so older clients keep working)
+    imputed_features: list[str] = []
+    data_completeness: Optional[float] = None
+    reliability: Optional[str] = None
+    model_info: Optional[dict[str, Any]] = None
+
+
+class MriPredictionOut(BaseModel):
+    predicted_class: str
+    class_code: int
+    severity_code: str
+    confidence: float
+    class_probabilities: dict[str, float]
+    ventricle_to_brain_ratio: Optional[str] = None
+    biomarkers_detected: list[str] = []
+    clinical_recommendation: str
+    heatmap_image: str
+    disclaimer: str
+
+

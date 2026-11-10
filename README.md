@@ -1,25 +1,32 @@
-# NeuroGuard
+# NeuroGuard / MindCare AI
 
-Multi-stage Alzheimer's screening platform (FYP).
+Alzheimer's-risk **screening prototype** (FastAPI + React + scikit-learn). **Not a medical device. The bundled model is trained on synthetic data and is not clinically validated.** See `docs/AUDIT_REPORT.md` and `docs/DATASET_REPORT.md`.
 
-## Structure
-- `backend/`  FastAPI: auth, game sessions, AD8 questionnaire (aur baad mein risk model, MRI endpoint)
-- `frontend/` React (games + dashboard), abhi khali
-- `ml/`       Training scripts (MRI baseline, risk model)
-- `docs/`     Proposal, literature review
-
-## Backend chalane ka tareeqa
+## Run
 ```bash
-cd backend
-python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload
+# backend (Python 3.12)
+cd backend && pip install -r requirements.txt
+export SECRET_KEY=$(python -c "import secrets;print(secrets.token_urlsafe(48))")
+python seed_demo_user.py            # optional dev demo login
+python -m uvicorn app.main:app --reload     # http://127.0.0.1:8000/docs
+# frontend
+cd frontend && npm install && npm run dev   # http://localhost:5173
 ```
-Phir browser mein kholo: http://127.0.0.1:8000/docs (yahan se saare endpoints test kar sakti ho).
 
-## Pehle hafte ka checklist
-- [ ] GitHub repo banao aur ye folder push karo
-- [ ] Backend chala kar /docs se register, login, AD8 test karo
-- [ ] Kaggle MRI dataset download karo, `ml/mri_baseline.py` Colab par chalao
-- [ ] Frontend setup (React + Vite) aur pehli game: card matching
+## Machine learning
+```bash
+cd ml
+python generate_cognitive_dataset.py                 # SYNTHETIC data + .meta.json
+python data_audit.py --csv data/synthetic_cognitive_screening.csv --target risk_level
+python train_risk_model.py                           # baselines, CV tuning, one-SE selection, calibration, test, stress test, plots
+python -m pytest tests -q                            # leakage / integrity tests
+# real data (you must obtain OASIS-2 under its DUA first):
+python train_oasis2_model.py --csv /path/to/oasis2_demographics.csv
+```
+Outputs: `saved_models/*.joblib` (+ SHA-256 manifest verified on load), `reports/risk_model/` (metrics JSON, confusion matrix, ROC, PR, calibration, importance). The dashboard's **Model Performance** page and `GET /ml/model-info` display them.
+
+## MRI module
+No trained weights are included, so `/ml/predict-mri` returns HTTP 503. It never fabricates a result. See `ml/mri_predictor.py`.
+
+## Tests
+`cd ml && python -m pytest tests -q` (13) and `cd backend && python -m pytest tests -q` (6).

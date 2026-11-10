@@ -10,8 +10,18 @@ from sqlalchemy.orm import Session
 from .database import get_db
 from . import models
 
-# Production mein SECRET_KEY environment variable se set karo, code mein nahi.
-SECRET_KEY = os.getenv("SECRET_KEY", "dev-only-change-me")
+# The signing key must never be a value that is published in the source code.
+# Set SECRET_KEY in the environment. If it is absent, a random per-process key is
+# used (tokens stop working after a restart) and production mode refuses to start.
+import secrets
+import warnings
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    if os.getenv("NEUROGUARD_ENV", "development").lower() == "production":
+        raise RuntimeError("SECRET_KEY must be set when NEUROGUARD_ENV=production")
+    warnings.warn("SECRET_KEY not set: using a random ephemeral key (sessions reset on restart).")
+    SECRET_KEY = secrets.token_urlsafe(48)
 ALGORITHM = "HS256"
 TOKEN_EXPIRE_MINUTES = 60 * 12
 

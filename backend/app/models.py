@@ -14,7 +14,7 @@ class User(Base):
     full_name = Column(String, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
-    role = Column(String, default="patient")  # "patient" ya "caregiver"
+    role = Column(String, default="patient")  # "patient" or "caregiver"
     age = Column(Integer, nullable=True)
     education_years = Column(Integer, nullable=True)
     family_history = Column(String, nullable=True)  # "yes" / "no" / "unknown"
@@ -25,8 +25,8 @@ class User(Base):
 
 
 class GameSession(Base):
-    """Har game khelne ka ek record. metrics mein game-specific features aate hain,
-    jaise {"moves": 18, "time_sec": 62.4, "errors": 3, "avg_reaction_ms": 540}"""
+    """Record of an individual game session. The 'metrics' JSON stores session telemetry,
+    e.g., {"moves": 18, "time_sec": 62.4, "errors": 3, "avg_reaction_ms": 540}"""
     __tablename__ = "game_sessions"
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)

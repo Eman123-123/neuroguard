@@ -1,0 +1,4 @@
+-r ../backend/requirements.txt
+# Only for the optional MRI deep-learning baseline (mri_baseline.py / MRI inference):
+# torch>=2.3
+# torchvision>=0.18

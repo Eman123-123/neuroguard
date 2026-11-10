@@ -1,7 +1,6 @@
-venv/
 __pycache__/
+*.pyc
 *.db
-*.pt
 node_modules/
+frontend/dist/
 .env
-data/

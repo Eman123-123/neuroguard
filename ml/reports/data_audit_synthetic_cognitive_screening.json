@@ -1,0 +1,139 @@
+{
+  "n_rows": 5000,
+  "n_cols": 13,
+  "missing_per_column": {},
+  "exact_duplicate_rows": 0,
+  "duplicate_feature_vectors_with_conflicting_labels": 0,
+  "class_balance": {
+    "0": 0.4656,
+    "1": 0.3352,
+    "2": 0.1992
+  },
+  "imbalance_ratio_max_to_min": 2.34,
+  "range_check": {
+    "age": {
+      "unit": "years",
+      "plausible_range": [
+        18,
+        110
+      ],
+      "n_out_of_range": 0
+    },
+    "education_years": {
+      "unit": "years of schooling",
+      "plausible_range": [
+        0,
+        30
+      ],
+      "n_out_of_range": 0
+    },
+    "card_match_moves": {
+      "unit": "flips/attempts",
+      "plausible_range": [
+        1,
+        500
+      ],
+      "n_out_of_range": 0
+    },
+    "card_match_time_sec": {
+      "unit": "seconds",
+      "plausible_range": [
+        1,
+        3600
+      ],
+      "n_out_of_range": 0
+    },
+    "card_match_error_rate": {
+      "unit": "fraction 0-1",
+      "plausible_range": [
+        0,
+        1
+      ],
+      "n_out_of_range": 0
+    },
+    "stroop_accuracy": {
+      "unit": "percent 0-100",
+      "plausible_range": [
+        0,
+        100
+      ],
+      "n_out_of_range": 0
+    },
+    "stroop_avg_reaction_ms": {
+      "unit": "milliseconds",
+      "plausible_range": [
+        150,
+        10000
+      ],
+      "n_out_of_range": 0
+    },
+    "stroop_interference_ms": {
+      "unit": "milliseconds (incongruent - congruent)",
+      "plausible_range": [
+        -500,
+        5000
+      ],
+      "n_out_of_range": 0
+    },
+    "sequence_max_span": {
+      "unit": "items",
+      "plausible_range": [
+        1,
+        15
+      ],
+      "n_out_of_range": 0
+    },
+    "ad8_score": {
+      "unit": "count of 'yes' items, 0-8",
+      "plausible_range": [
+        0,
+        8
+      ],
+      "n_out_of_range": 0
+    }
+  },
+  "extreme_outliers_3xIQR": {
+    "age": 0,
+    "education_years": 0,
+    "card_match_moves": 0,
+    "card_match_time_sec": 0,
+    "card_match_error_rate": 0,
+    "stroop_accuracy": 0,
+    "stroop_avg_reaction_ms": 0,
+    "stroop_interference_ms": 0,
+    "sequence_max_span": 0,
+    "ad8_score": 0
+  },
+  "constant_columns": [],
+  "leakage_screen": {
+    "single_feature_auc_ge_0.95": [
+      {
+        "feature": "stroop_avg_reaction_ms",
+        "auc": 0.9536
+      },
+      {
+        "feature": "ad8_score",
+        "auc": 0.9527
+      }
+    ],
+    "perfect_or_near_perfect_correlation_pairs": [],
+    "notes": [
+      "Single-feature AUC >= 0.95 on a screening task is a red flag for label-derived features or generated data.",
+      "Any feature used to DEFINE the label (e.g. CDR for a CDR-based label) must be excluded."
+    ]
+  },
+  "provenance": {
+    "synthetic": true,
+    "warning": "Synthetic data generated from author-assumed Gaussians. Not clinical data.",
+    "generator": "generate_cognitive_dataset.py",
+    "parameters": {
+      "n_samples": 5000,
+      "seed": 42,
+      "separation": 1.0,
+      "label_noise": 0.04
+    },
+    "n_rows": 5000,
+    "sha256": "2b98cdbb0b4f7106488b7baf608b21749a300b94e4ee36b1905a31d5b6f02f5c",
+    "generated_at": "2026-11-08T13:22:45.729706+00:00"
+  }
+}
